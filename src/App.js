@@ -8,8 +8,7 @@ function App() {
   return (
     <ChakraProvider>
     <div>
-      <Navbar/>
-      <Home/>
+      
     </div>
     </ChakraProvider>
   );
