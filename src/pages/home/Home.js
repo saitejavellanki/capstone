@@ -1,8 +1,15 @@
 import React from 'react';
 import { Box, Flex, Text, Button, Image } from '@chakra-ui/react';
 import { ArrowForwardIcon } from '@chakra-ui/icons';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
+  const navigate = useNavigate();
+
+  const handleOrderClick = () => {
+    navigate('/main');
+  };
+
   return (
     <Box bg="white" px={12} pt={20} height="calc(100vh - 80px)">
       <Flex alignItems="center" justifyContent="space-between">
@@ -15,7 +22,14 @@ const Home = () => {
             Use <Text as="span" fontWeight="bold" color="red">FOST</Text> for faster deliveries. <br />
             And quick <Text as="span" fontWeight="bold" color="red">orders</Text>.
           </Text>
-          <Button colorScheme="green" rightIcon={<ArrowForwardIcon />} borderRadius="full" size="lg">
+          <Button
+            colorScheme="green"
+            rightIcon={<ArrowForwardIcon />}
+            borderRadius="full"
+            size="lg"
+            onClick={handleOrderClick}
+            _hover={{ transform: 'scale(1.2)', transition: 'all 0.2s ease-in-out' }}
+          >
             Make a order
           </Button>
         </Box>

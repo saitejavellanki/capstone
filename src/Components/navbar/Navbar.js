@@ -1,23 +1,26 @@
 import React from 'react';
 import { Box, Flex, Text, Link } from '@chakra-ui/react';
+import { NavLink } from 'react-router-dom';
 
 const Navbar = () => {
   return (
     <Box bg="black" px={8}>
       <Flex h={20} alignItems="center" justifyContent="space-between">
-        <Text color="white" fontSize="4xl" fontWeight="bold" ml={8}>
-          FoSt.
-        </Text>
+      <NavLink to="/" style={{ textDecoration: 'none' }}>
+          <Text color="white" fontSize="4xl" fontWeight="bold" ml={8}>
+            FoSt.
+          </Text>
+        </NavLink>
         <Flex alignItems="center" mr={8}>
-          <Link href="#services" color="white" px={5} fontSize="xl">
+        <NavLink to="/services" style={{ color: 'white', padding: '0 20px', fontSize: 'xl' }}>
             Services
-          </Link>
-          <Link href="#about-us" color="white" px={5} fontSize="xl">
+          </NavLink>
+          <NavLink to="/about-us" style={{ color: 'white', padding: '0 20px', fontSize: 'xl' }}>
             About Us
-          </Link>
-          <Link href="#login" color="white" px={5} fontSize="xl">
+          </NavLink>
+          <NavLink to="/login" style={{ color: 'white', padding: '0 20px', fontSize: 'xl' }}>
             Login
-          </Link>
+          </NavLink>
         </Flex>
       </Flex>
     </Box>
