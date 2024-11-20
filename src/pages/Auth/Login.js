@@ -1,11 +1,30 @@
 import React, { useState } from 'react';
-import { Box, Flex, Heading, Input, Button, Text, Link, useToast, FormControl, FormLabel, FormErrorMessage, Divider } from '@chakra-ui/react';
+import { 
+  Box, 
+  Flex, 
+  Heading, 
+  Input, 
+  Button, 
+  Text, 
+  Link, 
+  useToast, 
+  FormControl, 
+  FormErrorMessage, 
+  Divider 
+} from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
-import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { app } from '../../components/firebase/Firebase';
+import { 
+  signInWithEmailAndPassword, 
+  GoogleAuthProvider, 
+  signInWithPopup 
+} from 'firebase/auth';
+import { 
+  doc, 
+  getDoc, 
+  setDoc 
+} from 'firebase/firestore';
+import { auth, firestore } from '../../components/firebase/Firebase';
 import backgroundImage from '../../assets/backgroundImage.jpg';
-
-const auth = getAuth(app);
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -16,61 +35,80 @@ const Login = () => {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
 
-  const handleLogin = (e) => {
-    e.preventDefault();
+  const saveUserToLocalStorage = async (user) => {
+    try {
+      const userDocRef = doc(firestore, 'users', user.uid);
+      const userDoc = await getDoc(userDocRef);
+
+      const userData = userDoc.exists() 
+        ? userDoc.data() 
+        : { email: user.email, role: 'customer' };
+
+      localStorage.setItem('user', JSON.stringify({
+        uid: user.uid,
+        email: user.email,
+        role: userData.role,
+        shopId: userData.shopId || null
+      }));
+
+      return userData.role;
+    } catch (error) {
+      console.error("Error saving user:", error);
+      return 'customer';
+    }
+  };
+
+  const handleSignIn = async (signInMethod) => {
     setIsLoading(true);
     setEmailError('');
     setPasswordError('');
 
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        setIsLoading(false);
-        toast({
-          title: 'Login Successful',
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-        });
-        navigate('/');
-      })
-      .catch((error) => {
-        toast({
-          title: error.message,
-          status: 'error',
-          duration: 3000,
-          isClosable: true,
-        });
-        setIsLoading(false);
+    try {
+      let userCredential;
+      if (signInMethod === 'email') {
+        userCredential = await signInWithEmailAndPassword(auth, email, password);
+      } else {
+        const provider = new GoogleAuthProvider();
+        userCredential = await signInWithPopup(auth, provider);
+      }
 
-        if (error.message.includes('email')) {
-          setEmailError(error.message);
-        } else if (error.message.includes('password')) {
-          setPasswordError(error.message);
-        }
+      const userRole = await saveUserToLocalStorage(userCredential.user);
+      
+      toast({
+        title: 'Login Successful',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
       });
-  };
 
-  const signInWithGoogle = (e) => {
-    e.preventDefault();
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        toast({
-          title: 'Login Successful',
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-        });
-        navigate('/');
-      })
-      .catch((error) => {
-        toast({
-          title: error.message,
-          status: 'error',
-          duration: 3000,
-          isClosable: true,
-        });
+      // Navigate based on user role
+      switch(userRole) {
+        case 'admin':
+          navigate('/admin/shops');
+          break;
+        case 'vendor':
+          navigate('/vendor/items');
+          break;
+        default:
+          navigate('/');
+      }
+    } catch (error) {
+      toast({
+        title: 'Login Error',
+        description: error.message,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
       });
+
+      if (error.message.includes('email')) {
+        setEmailError(error.message);
+      } else if (error.message.includes('password')) {
+        setPasswordError(error.message);
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -80,9 +118,11 @@ const Login = () => {
           Login
         </Heading>
         <Text mb={6} color="gray.500">To get started</Text>
-        <form onSubmit={handleLogin}>
+        <form onSubmit={(e) => {
+          e.preventDefault();
+          handleSignIn('email');
+        }}>
           <FormControl isInvalid={!!emailError} mb={4}>
-            
             <Input
               placeholder="Email"
               value={email}
@@ -96,7 +136,6 @@ const Login = () => {
             {emailError && <FormErrorMessage>{emailError}</FormErrorMessage>}
           </FormControl>
           <FormControl isInvalid={!!passwordError} mb={2}>
-            
             <Input
               type="password"
               placeholder="Password"
@@ -110,17 +149,32 @@ const Login = () => {
             />
             {passwordError && <FormErrorMessage>{passwordError}</FormErrorMessage>}
           </FormControl>
-          <Link href="/forgot-password" color="gray.500" mb={4} display="block" textAlign="left">
-            Forgot Password?
-          </Link>
-          <Button colorScheme="blue" w="full" type="submit" height="50px" borderRadius="md" isLoading={isLoading} fontWeight="bold" fontSize="lg">
+          <Button 
+            colorScheme="blue" 
+            w="full" 
+            type="submit" 
+            height="50px" 
+            borderRadius="md" 
+            isLoading={isLoading} 
+            fontWeight="bold" 
+            fontSize="lg"
+          >
             Continue
           </Button>
         </form>
 
         <Divider my={6} />
 
-        <Button colorScheme="red" w="full" height="50px" borderRadius="md" fontWeight="bold" fontSize="lg" onClick={signInWithGoogle}>
+        <Button 
+          colorScheme="red" 
+          w="full" 
+          height="50px" 
+          borderRadius="md" 
+          fontWeight="bold" 
+          fontSize="lg" 
+          onClick={() => handleSignIn('google')}
+          isLoading={isLoading}
+        >
           Sign in with Google
         </Button>
 

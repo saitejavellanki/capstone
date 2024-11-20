@@ -34,10 +34,9 @@ const Home = () => {
           </Button>
         </Box>
 
-        {/* Image Section */}
         <Box ml={10} p={4}>
           <Image
-            src="https://via.placeholder.com/400" // Replace with actual image URL
+            src="https://via.placeholder.com/400" 
             alt="Food image"
             borderRadius="lg"
           />
