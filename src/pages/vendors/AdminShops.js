@@ -18,7 +18,7 @@ import {
   ModalCloseButton
 } from '@chakra-ui/react';
 import { getFirestore, collection, query, where, getDocs, addDoc } from 'firebase/firestore';
-import { app } from '../../components/firebase/Firebase';
+import { app } from '../../Components/firebase/Firebase';
 
 const AdminShops = () => {
   const [shopName, setShopName] = useState('');

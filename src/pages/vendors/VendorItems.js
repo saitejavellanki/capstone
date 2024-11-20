@@ -33,7 +33,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { app } from "../../components/firebase/Firebase";
+import { app } from "../../Components/firebase/Firebase";
 
 const VendorItems = () => {
   const [items, setItems] = useState([]);

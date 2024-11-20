@@ -33,7 +33,7 @@ import {
   getDoc,
   doc 
 } from 'firebase/firestore';
-import { app } from '../../components/firebase/Firebase';
+import { app } from '../../Components/firebase/Firebase';
 
 const Shop = () => {
   const [items, setItems] = useState([]);

@@ -3,7 +3,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import Home from './pages/home/Home';
-import Navbar from './components/navbar/Navbar';
+import Navbar from './Components/navbar/Navbar';
 import Register from './pages/Auth/Register';
 import Login from './pages/Auth/Login';
 import Main from './pages/main/Main';
@@ -13,7 +13,9 @@ import VendorItems from './pages/vendors/VendorItems';
 import Cart from './pages/cart/Cart';
 import VendorOrders from './pages/vendors/VendorOrders';
 import UserOrders from './pages/orders/UserOrders';
-import { getCurrentUser } from './components/firebase/Firebase';
+import { getCurrentUser } from './Components/firebase/Firebase';
+import OrderWaitingPage from './pages/utils/WaitingPage';
+import Footer from './Components/footer/Footer';
 
 const ProtectedRoute = ({ children, requiredRole }) => {
   const [user, setUser] = useState(null);
@@ -58,6 +60,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/order-waiting" element={<OrderWaitingPage />} />
+          
           <Route
             path="/main"
             element={
@@ -115,6 +119,7 @@ function App() {
             }
           />
         </Routes>
+        <Footer/>
       </BrowserRouter>
     </ChakraProvider>
   );

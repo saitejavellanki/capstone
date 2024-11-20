@@ -23,7 +23,7 @@ import {
   getDoc, 
   setDoc 
 } from 'firebase/firestore';
-import { auth, firestore } from '../../components/firebase/Firebase';
+import { auth, firestore } from '../../Components/firebase/Firebase';
 import backgroundImage from '../../assets/backgroundImage.jpg';
 
 const Login = () => {

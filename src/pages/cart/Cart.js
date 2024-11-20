@@ -23,6 +23,7 @@ import {
 } from '@chakra-ui/react';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { Trash2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -31,6 +32,7 @@ const Cart = () => {
   const [selectedShop, setSelectedShop] = useState(null);
   const toast = useToast();
   const firestore = getFirestore();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Load cart items from localStorage
@@ -143,6 +145,9 @@ const Cart = () => {
         duration: 3000,
         isClosable: true,
       });
+      const newDocRef = await addDoc(collection(firestore, 'orders'), orderData);
+
+      navigate('/order-waiting', { state: { orderId: newDocRef.id } });
 
       onClose();
     } catch (error) {

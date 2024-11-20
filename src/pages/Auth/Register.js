@@ -24,7 +24,7 @@ import {
   query,
   where
 } from 'firebase/firestore';
-import { auth, firestore } from '../../components/firebase/Firebase';
+import { auth, firestore } from '../../Components/firebase/Firebase';
 
 const Register = () => {
   const [email, setEmail] = useState('');

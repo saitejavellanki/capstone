@@ -83,40 +83,38 @@ const Navbar = () => {
 
       <Flex align="center">
         {user ? (
-          <Menu>
-            <MenuButton>
-              <Flex align="center">
-                <Avatar 
-                  size="sm" 
-                  name={user.email} 
-                  mr={2} 
-                />
-                <Text fontWeight="medium">{user.email}</Text>
-              </Flex>
-            </MenuButton>
-            <MenuList>
-              {user.role === 'admin' && (
-                <MenuItem onClick={() => navigate('/admin/shops')}>
-                  Admin Dashboard
-                </MenuItem>
-              )}
-              {user.role === 'vendor' && (
-                <MenuItem onClick={() => navigate(`/vendor/items`)}>
-                  Vendor Dashboard
-                </MenuItem>
-              )}
-              <MenuItem onClick={handleLogout}>Logout</MenuItem>
-              <MenuItem >
-              {user && (
-                   <Link to="/cart">
-                      <Button variant="solid" colorScheme="orange">
-                                   Cart
-                      </Button>
-                  </Link>
-              )}
-              </MenuItem>
-            </MenuList>
-          </Menu>
+          <>
+            <Link to="/cart">
+              <Button variant="solid" colorScheme="orange" mr={4}>
+                Cart
+              </Button>
+            </Link>
+            <Menu>
+              <MenuButton>
+                <Flex align="center">
+                  <Avatar 
+                    size="sm" 
+                    name={user.email} 
+                    mr={2} 
+                  />
+                  <Text fontWeight="medium">{user.email}</Text>
+                </Flex>
+              </MenuButton>
+              <MenuList>
+                {user.role === 'admin' && (
+                  <MenuItem onClick={() => navigate('/admin/shops')}>
+                    Admin Dashboard
+                  </MenuItem>
+                )}
+                {user.role === 'vendor' && (
+                  <MenuItem onClick={() => navigate(`/vendor/items`)}>
+                    Vendor Dashboard
+                  </MenuItem>
+                )}
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+              </MenuList>
+            </Menu>
+          </>
         ) : (
           <Flex>
             <Button 
