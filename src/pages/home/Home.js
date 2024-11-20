@@ -19,7 +19,10 @@ import { FaMapMarkerAlt, FaMotorcycle, FaUtensils, FaGift } from 'react-icons/fa
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
-
+import pic1 from "../../Assets/WhatsApp Image 2024-11-20 at 10.00.05 PM.jpeg"
+import pic2 from "../../Assets/WhatsApp Image 2024-11-20 at 10.00.18 PM.jpeg"
+import pic3 from "../../Assets/WhatsApp Image 2024-11-20 at 9.59.19 PM.jpeg"
+import pic4 from "../../Assets/Untitled design (1) (1).png"
 // Animated components
 const MotionBox = chakra(motion.div);
 const MotionVStack = chakra(motion.div);
@@ -72,7 +75,7 @@ const Home = () => {
 
   const foodCategories = [
     { icon: FaUtensils, title: 'Restaurant' },
-    { icon: FaMotorcycle, title: 'Delivery' },
+    
     { icon: FaGift, title: 'Special Offers' }
   ];
 
@@ -127,13 +130,13 @@ const Home = () => {
               <Box w="full" borderRadius="lg" overflow="hidden">
                 <Slider {...carouselSettings}>
                   <Box>
-                    <Image src="https://via.placeholder.com/800x400?text=Delicious+Meal+1" alt="Delicious Meal" />
+                    <Image src={pic1} alt="Delicious Meal" />
                   </Box>
                   <Box>
-                    <Image src="https://via.placeholder.com/800x400?text=Fast+Delivery" alt="Fast Delivery" />
+                    <Image src={pic2} alt="Fast Delivery" />
                   </Box>
                   <Box>
-                    <Image src="https://via.placeholder.com/800x400?text=Exclusive+Offers" alt="Exclusive Offers" />
+                    <Image src={pic3} alt="Exclusive Offers" />
                   </Box>
                 </Slider>
               </Box>
@@ -189,7 +192,7 @@ const Home = () => {
             transition={{ duration: 0.5 }}
           >
             <Image
-              src="https://via.placeholder.com/500" // Placeholder image; replace with actual image URL
+              src={pic4} // Placeholder image; replace with actual image URL
               alt="Food Delivery"
               borderRadius="2xl"
               boxShadow="2xl"

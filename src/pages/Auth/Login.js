@@ -24,7 +24,7 @@ import {
   setDoc 
 } from 'firebase/firestore';
 import { auth, firestore } from '../../Components/firebase/Firebase';
-import backgroundImage from '../../assets/backgroundImage.jpg';
+import backgroundImage from '../../Assets/WhatsApp Image 2024-11-20 at 10.00.05 PM.jpeg';
 
 const Login = () => {
   const [email, setEmail] = useState('');
